@@ -5,6 +5,6 @@
         public int? Cost { get; set; }
         public int? CategoryID { get; set; }
         public virtual Category? ProductGroup { get; set; }
-        public virtual List<Storage>? Storages { get; set; }
+        public virtual List<ProductStorage>? ProductStorages { get; set; } = [];
     }
 }
