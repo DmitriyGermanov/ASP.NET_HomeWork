@@ -1,6 +1,7 @@
 ﻿using ASP.NET_HomeWork.Entities;
 using ASP.NET_HomeWork.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace ASP.NET_HomeWork.Controllers
 {
@@ -8,8 +9,8 @@ namespace ASP.NET_HomeWork.Controllers
     [ApiController]
     public class ProductController : ControllerBase
     {
-        [HttpGet("getProduct")]
-        public IActionResult GetProduct()
+        [HttpGet("getProducts")]
+        public IActionResult GetProducts()
         {
             try
             {
@@ -30,6 +31,7 @@ namespace ASP.NET_HomeWork.Controllers
             }
 
         }
+
         [HttpPost("postProduct")]
         public IActionResult PostProduct([FromQuery] int id, [FromQuery] string name, [FromQuery] string? description, [FromQuery] int categoryID)
         {
@@ -58,7 +60,7 @@ namespace ASP.NET_HomeWork.Controllers
 
                 return Ok(newProduct);
             }
-            catch 
+            catch
             {
                 return StatusCode(500);
             }
@@ -79,7 +81,6 @@ namespace ASP.NET_HomeWork.Controllers
                 product.Name = name;
                 product.Description = description;
                 product.CategoryID = categoryID;
-                ctx.Products?.Update(product);
                 ctx.SaveChanges();
 
                 return Ok(product);
@@ -89,6 +90,107 @@ namespace ASP.NET_HomeWork.Controllers
             {
                 return StatusCode(500);
             }
+        }
+
+        [HttpDelete("deleteProduct")]
+        public IActionResult DeleteProduct([FromQuery] int id)
+        {
+            try
+            {
+                using var ctx = new ProductContext();
+
+                var product = ctx.Products?.FirstOrDefault(p => p.Id == id);
+                if (product == null)
+                {
+                    return StatusCode(404);
+                }
+                ctx.Remove(product);
+                ctx.SaveChanges();
+
+                return Ok(product);
+
+            }
+            catch
+            {
+                return StatusCode(500);
+            }
+        }
+
+        [HttpPatch("patchProduct/{id}")]
+        public IActionResult PatchProduct(int id, [FromBody] PatchProductModel patchObject)
+        {
+            try
+            {
+                using var ctx = new ProductContext();
+
+                var product = ctx.Products?
+                   .Include(p => p.ProductGroup)
+                   .Include(product => product.ProductStorages)
+                   .FirstOrDefault(p => p.Id == id);
+                if (product == null)
+                {
+                    return NotFound("Product Not Found");
+                }
+
+                if (patchObject.Name != null)
+                {
+                    product.Name = patchObject.Name;
+                }
+                if (patchObject.Description != null)
+                {
+                    product.Description = patchObject.Description;
+                }
+                if (patchObject.CategoryID.HasValue)
+                {
+                    if (ctx.Categories?.Include(c => c.Products).FirstOrDefault(category => category.Id == patchObject.CategoryID) != null)
+                        product.CategoryID = patchObject?.CategoryID.Value;
+                    else
+                        return NotFound("Category Not Found");
+                }
+
+
+                ctx.SaveChanges();
+
+                return Ok(product);
+            }
+            catch
+            {
+                return StatusCode(500);
+            }
+        }
+
+        [HttpPatch("setProductPrice/{id}")]
+        public IActionResult SetProductPrice(int id, [FromQuery] int cost)
+        {
+            try
+            {
+                using var ctx = new ProductContext();
+                var product = ctx.Products?
+                    .Include(p => p.ProductGroup)
+                    .Include(product => product.ProductStorages)
+                    .FirstOrDefault(p => p.Id == id);
+
+                if (product == null)
+                {
+                    return NotFound();
+                }
+
+                product.Cost = cost;
+                ctx.SaveChanges();
+
+                return Ok(product);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
+
+        public class PatchProductModel
+        {
+            public string? Name { get; set; }
+            public string? Description { get; set; }
+            public int? CategoryID { get; set; }
         }
     }
 }
