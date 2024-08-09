@@ -108,7 +108,6 @@ namespace ASP.NET_HomeWork.Controllers
                 ctx.SaveChanges();
 
                 return Ok(product);
-
             }
             catch
             {
@@ -147,7 +146,6 @@ namespace ASP.NET_HomeWork.Controllers
                     else
                         return NotFound("Category Not Found");
                 }
-
 
                 ctx.SaveChanges();
 

@@ -15,7 +15,6 @@ namespace ASP.NET_HomeWork.Controllers
             try
             {
                 using var ctx = new ProductContext();
-
                 var categories = ctx.Categories?.Select(c => new Category
                 {
                     Id = c.Id,
@@ -68,12 +67,13 @@ namespace ASP.NET_HomeWork.Controllers
             try
             {
                 using var ctx = new ProductContext();
-
                 var category = ctx.Categories?.FirstOrDefault(c => c.Id == id);
+
                 if (category == null)
                 {
                     return StatusCode(404);
                 }
+
                 category.Name = name;
                 category.Description = description;
                 ctx.SaveChanges();
@@ -92,12 +92,13 @@ namespace ASP.NET_HomeWork.Controllers
             try
             {
                 using var ctx = new ProductContext();
-
                 var category = ctx.Categories?.FirstOrDefault(c => c.Id == id);
+
                 if (category == null)
                 {
                     return StatusCode(404);
                 }
+
                 ctx.Remove(category);
                 ctx.SaveChanges();
 
@@ -115,10 +116,10 @@ namespace ASP.NET_HomeWork.Controllers
             try
             {
                 using var ctx = new ProductContext();
-
                 var category = ctx.Categories?
                     .Include(c => c.Products)
                     .FirstOrDefault(c => c.Id == id);
+
                 if (category == null)
                 {
                     return NotFound("Category Not Found");
