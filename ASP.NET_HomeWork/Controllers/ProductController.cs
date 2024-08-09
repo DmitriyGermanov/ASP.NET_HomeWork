@@ -33,7 +33,7 @@ namespace ASP.NET_HomeWork.Controllers
         }
 
         [HttpPost("postProduct")]
-        public IActionResult PostProduct([FromQuery] int id, [FromQuery] string name, [FromQuery] string? description, [FromQuery] int categoryID)
+        public IActionResult AddProduct([FromQuery] int id, [FromQuery] string name, [FromQuery] string? description, [FromQuery] int categoryID)
         {
             try
             {
