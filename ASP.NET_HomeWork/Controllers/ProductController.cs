@@ -9,7 +9,7 @@ namespace ASP.NET_HomeWork.Controllers
     [ApiController]
     public class ProductController : ControllerBase
     {
-        [HttpGet("getProducts")]
+        [HttpGet("GetProducts")]
         public IActionResult GetProducts()
         {
             try
@@ -32,7 +32,7 @@ namespace ASP.NET_HomeWork.Controllers
 
         }
 
-        [HttpPost("postProduct")]
+        [HttpPost("AddProduct")]
         public IActionResult AddProduct([FromQuery] int id, [FromQuery] string name, [FromQuery] string? description, [FromQuery] int categoryID)
         {
             try
@@ -66,7 +66,7 @@ namespace ASP.NET_HomeWork.Controllers
             }
         }
 
-        [HttpPut("putProduct")]
+        [HttpPut("PutProduct")]
         public IActionResult PutProduct([FromQuery] int id, [FromQuery] string name, [FromQuery] string? description, [FromQuery] int categoryID)
         {
             try
@@ -92,7 +92,7 @@ namespace ASP.NET_HomeWork.Controllers
             }
         }
 
-        [HttpDelete("deleteProduct")]
+        [HttpDelete("DeleteProduct")]
         public IActionResult DeleteProduct([FromQuery] int id)
         {
             try
@@ -115,7 +115,7 @@ namespace ASP.NET_HomeWork.Controllers
             }
         }
 
-        [HttpPatch("patchProduct/{id}")]
+        [HttpPatch("PatchProduct/{id}")]
         public IActionResult PatchProduct(int id, [FromBody] PatchProductModel patchObject)
         {
             try
@@ -157,7 +157,7 @@ namespace ASP.NET_HomeWork.Controllers
             }
         }
 
-        [HttpPatch("setProductPrice/{id}")]
+        [HttpPatch("SetProductPrice/{id}")]
         public IActionResult SetProductPrice(int id, [FromQuery] int cost)
         {
             try

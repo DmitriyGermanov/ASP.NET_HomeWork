@@ -11,7 +11,7 @@ namespace ASP.NET_HomeWork.Controllers
     [ApiController]
     public class CategoryController : ControllerBase
     {
-        [HttpPost("getCategories")]
+        [HttpPost("GetCategories")]
         public IActionResult GetCategories()
         {
             try
@@ -31,8 +31,8 @@ namespace ASP.NET_HomeWork.Controllers
             }
         }
 
-        [HttpPost("postCategory")]
-        public IActionResult PostCategory([FromQuery] int id, [FromQuery] string name, [FromQuery] string? description)
+        [HttpPost("AddCategory")]
+        public IActionResult AddCategory([FromQuery] int id, [FromQuery] string name, [FromQuery] string? description)
         {
             try
             {
@@ -63,8 +63,8 @@ namespace ASP.NET_HomeWork.Controllers
             }
         }
 
-        [HttpPut("putCategory")]
-        public IActionResult PutCategory([FromQuery] int id, [FromQuery] string name, [FromQuery] string? description)
+        [HttpPut("UpdateCategory")]
+        public IActionResult UpdateCategory([FromQuery] int id, [FromQuery] string name, [FromQuery] string? description)
         {
             try
             {
@@ -73,7 +73,7 @@ namespace ASP.NET_HomeWork.Controllers
 
                 if (category == null)
                 {
-                    return StatusCode(404);
+                    return StatusCode(404, "Category Not Found.");
                 }
 
                 category.Name = name;
@@ -88,7 +88,7 @@ namespace ASP.NET_HomeWork.Controllers
             }
         }
 
-        [HttpDelete("deleteCategory")]
+        [HttpDelete("DeleteCategory")]
         public IActionResult DeleteCategory([FromQuery] int id)
         {
             try
@@ -112,8 +112,8 @@ namespace ASP.NET_HomeWork.Controllers
             }
         }
 
-        [HttpPatch("patchCategory/{id}")]
-        public IActionResult PatchCategory(int id, [FromBody] PatchCategoryModel patchObject)
+        [HttpPatch("ChangeCategory/{id}")]
+        public IActionResult ChangeCategory(int id, [FromBody] PatchCategoryModel patchObject)
         {
             try
             {
