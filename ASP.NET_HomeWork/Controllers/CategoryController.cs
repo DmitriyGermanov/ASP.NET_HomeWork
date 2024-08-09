@@ -63,8 +63,8 @@ namespace ASP.NET_HomeWork.Controllers
             }
         }
 
-        [HttpPut("UpdateCategory")]
-        public IActionResult UpdateCategory([FromQuery] int id, [FromQuery] string name, [FromQuery] string? description)
+        [HttpPut("ChangeCategory")]
+        public IActionResult ChangeCategory([FromQuery] int id, [FromQuery] string name, [FromQuery] string? description)
         {
             try
             {
@@ -112,8 +112,8 @@ namespace ASP.NET_HomeWork.Controllers
             }
         }
 
-        [HttpPatch("ChangeCategory/{id}")]
-        public IActionResult ChangeCategory(int id, [FromBody] PatchCategoryModel patchObject)
+        [HttpPatch("UpdateCategory/{id}")]
+        public IActionResult UpdateCategory(int id, [FromBody] PatchCategoryModel patchObject)
         {
             try
             {

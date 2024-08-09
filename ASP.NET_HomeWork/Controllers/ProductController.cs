@@ -66,8 +66,8 @@ namespace ASP.NET_HomeWork.Controllers
             }
         }
 
-        [HttpPut("PutProduct")]
-        public IActionResult PutProduct([FromQuery] int id, [FromQuery] string name, [FromQuery] string? description, [FromQuery] int categoryID)
+        [HttpPut("ChangeProduct")]
+        public IActionResult ChangeProduct([FromQuery] int id, [FromQuery] string name, [FromQuery] string? description, [FromQuery] int categoryID)
         {
             try
             {
@@ -115,8 +115,8 @@ namespace ASP.NET_HomeWork.Controllers
             }
         }
 
-        [HttpPatch("PatchProduct/{id}")]
-        public IActionResult PatchProduct(int id, [FromBody] PatchProductModel patchObject)
+        [HttpPatch("UpdateProduct/{id}")]
+        public IActionResult UpdateProduct(int id, [FromBody] PatchProductModel patchObject)
         {
             try
             {
