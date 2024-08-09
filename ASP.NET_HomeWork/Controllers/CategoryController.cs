@@ -1,10 +1,12 @@
-﻿using ASP.NET_HomeWork.Entities;
+﻿using ASP.NET_HomeWork.DTOs;
+using ASP.NET_HomeWork.Entities;
 using ASP.NET_HomeWork.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace ASP.NET_HomeWork.Controllers
 {
+    //TO-do: Обновить код на DTO собрав отражения в папку DTOs, смотреть лекция № 2
     [Route("api/[controller]")]
     [ApiController]
     public class CategoryController : ControllerBase
@@ -23,9 +25,9 @@ namespace ASP.NET_HomeWork.Controllers
                 }).ToList();
                 return Ok(categories);
             }
-            catch
+            catch (Exception ex)
             {
-                return StatusCode(500);
+                return StatusCode(500, ex);
             }
         }
 
@@ -55,9 +57,9 @@ namespace ASP.NET_HomeWork.Controllers
 
                 return Ok(newCategory);
             }
-            catch
+            catch (Exception ex)
             {
-                return StatusCode(500);
+                return StatusCode(500, ex);
             }
         }
 
@@ -80,9 +82,9 @@ namespace ASP.NET_HomeWork.Controllers
 
                 return Ok(category);
             }
-            catch
+            catch (Exception ex)
             {
-                return StatusCode(500);
+                return StatusCode(500, ex);
             }
         }
 
@@ -104,9 +106,9 @@ namespace ASP.NET_HomeWork.Controllers
 
                 return Ok(category);
             }
-            catch
+            catch (Exception ex)
             {
-                return StatusCode(500);
+                return StatusCode(500, ex);
             }
         }
 
@@ -138,16 +140,12 @@ namespace ASP.NET_HomeWork.Controllers
 
                 return Ok(category);
             }
-            catch
+            catch (Exception ex)
             {
-                return StatusCode(500);
+                return StatusCode(500, ex);
             }
         }
 
-        public class PatchCategoryModel
-        {
-            public string? Name { get; set; }
-            public string? Description { get; set; }
-        }
+     
     }
 }
