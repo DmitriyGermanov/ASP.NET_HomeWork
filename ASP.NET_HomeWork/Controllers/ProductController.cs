@@ -38,7 +38,8 @@ namespace ASP.NET_HomeWork.Controllers
             try
             {
                 using var ctx = new ProductContext();
-                var category = ctx.Categories?.FirstOrDefault(c => c.Id == categoryID);
+                var category = ctx.Categories?
+                    .FirstOrDefault(c => c.Id == categoryID);
                 var existingProduct = ctx.Products?
                     .FirstOrDefault(p => p.Id == id);
 
@@ -73,7 +74,8 @@ namespace ASP.NET_HomeWork.Controllers
             {
                 using var ctx = new ProductContext();
 
-                var product = ctx.Products?.FirstOrDefault(p => p.Id == id);
+                var product = ctx.Products?
+                    .FirstOrDefault(p => p.Id == id);
                 if (product == null)
                 {
                     return StatusCode(404);
@@ -99,7 +101,8 @@ namespace ASP.NET_HomeWork.Controllers
             {
                 using var ctx = new ProductContext();
 
-                var product = ctx.Products?.FirstOrDefault(p => p.Id == id);
+                var product = ctx.Products?
+                    .FirstOrDefault(p => p.Id == id);
                 if (product == null)
                 {
                     return StatusCode(404);
@@ -141,7 +144,9 @@ namespace ASP.NET_HomeWork.Controllers
                 }
                 if (patchObject.CategoryID.HasValue)
                 {
-                    if (ctx.Categories?.Include(c => c.Products).FirstOrDefault(category => category.Id == patchObject.CategoryID) != null)
+                    if (ctx.Categories?
+                        .Include(c => c.Products)
+                        .FirstOrDefault(category => category.Id == patchObject.CategoryID) != null)
                         product.CategoryID = patchObject?.CategoryID.Value;
                     else
                         return NotFound("Category Not Found");

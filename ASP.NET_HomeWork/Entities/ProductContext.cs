@@ -23,8 +23,10 @@ namespace ASP.NET_HomeWork.Entities
         {
             modelBuilder.Entity<Category>(entity =>
             {
-                entity.HasKey(c => c.Id).HasName("PK_CategoryID");
-                entity.HasIndex(c => c.Id).IsUnique();
+                entity.HasKey(c => c.Id)
+                      .HasName("PK_CategoryID");
+                entity.HasIndex(c => c.Id)
+                      .IsUnique();
                 entity.ToTable("Categories");
 
                 entity.HasMany(c => c.Products)
@@ -34,8 +36,10 @@ namespace ASP.NET_HomeWork.Entities
 
             modelBuilder.Entity<Product>(entity =>
             {
-                entity.HasKey(p => p.Id).HasName("PK_ProductID");
-                entity.HasIndex(p => p.Id).IsUnique();
+                entity.HasKey(p => p.Id)
+                      .HasName("PK_ProductID");
+                entity.HasIndex(p => p.Id)
+                      .IsUnique();
                 entity.ToTable("Products");
 
                 entity.HasOne(p => p.ProductGroup)
@@ -49,7 +53,8 @@ namespace ASP.NET_HomeWork.Entities
 
             modelBuilder.Entity<ProductStorage>(entity =>
             {
-                entity.HasKey(ps => new { ps.ProductId, ps.StorageID }).HasName("PK_ProductStorage");
+                entity.HasKey(ps => new { ps.ProductId, ps.StorageID })
+                      .HasName("PK_ProductStorage");
 
                 entity.HasOne(ps => ps.Product)
                       .WithMany(p => p.ProductStorages)
@@ -62,8 +67,10 @@ namespace ASP.NET_HomeWork.Entities
 
             modelBuilder.Entity<Storage>(entity =>
             {
-                entity.HasKey(s => s.Id).HasName("PK_StorageID");
-                entity.HasIndex(s => s.Id).IsUnique();
+                entity.HasKey(s => s.Id)
+                      .HasName("PK_StorageID");
+                entity.HasIndex(s => s.Id)
+                      .IsUnique();
                 entity.ToTable("Storages");
 
                 entity.HasMany(s => s.ProductStorages)
