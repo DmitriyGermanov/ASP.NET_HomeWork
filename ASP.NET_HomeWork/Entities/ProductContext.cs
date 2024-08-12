@@ -5,9 +5,9 @@ namespace ASP.NET_HomeWork.Entities
 {
     public class ProductContext : DbContext
     {
-        public DbSet<Product>? Products { get; set; }
+        public DbSet<Product> Products { get; set; }
         public DbSet<ProductStorage>? ProductStorages { get; set; }
-        public DbSet<Category>? Categories { get; set; }
+        public DbSet<Category> Categories { get; set; }
         public DbSet<Storage>? Storages { get; set; }
 
         public ProductContext()
@@ -15,7 +15,7 @@ namespace ASP.NET_HomeWork.Entities
         }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseMySQL("Server=localhost;Port=3306;Database=ProductsBD;Uid=root;Pwd=;")
+            optionsBuilder.UseMySQL("Server=localhost;Port=3306;Database=ProductsBD;Uid=root;Pwd=study;")
                           .UseLazyLoadingProxies();
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)

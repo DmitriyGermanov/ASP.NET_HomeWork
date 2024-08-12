@@ -1,5 +1,7 @@
-﻿using ASP.NET_HomeWork.Entities;
+﻿using ASP.NET_HomeWork.Abstractions;
+using ASP.NET_HomeWork.Entities;
 using ASP.NET_HomeWork.Models;
+using ASP.NET_HomeWork.Models.DTOs;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -7,67 +9,38 @@ namespace ASP.NET_HomeWork.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ProductController : ControllerBase
+    public class ProductController(IProductRepository productRepository) : ControllerBase
     {
-        [HttpGet("GetProducts")]
+        private readonly IProductRepository _productRepository = productRepository;
+
+        [HttpGet("get_products")]
         public IActionResult GetProducts()
         {
             try
             {
-                using var ctx = new ProductContext();
-
-                var products = ctx.Products?.Select(p => new Product
-                {
-                    Id = p.Id,
-                    Name = p.Name,
-                    Description = p.Description,
-                }).ToList();
+                var products = _productRepository.GetProducts();
                 return Ok(products);
-
             }
-            catch
+            catch (Exception ex)
             {
-                return StatusCode(500);
+                return StatusCode(500, ex);
             }
 
         }
 
-        [HttpPost("AddProduct")]
-        public IActionResult AddProduct([FromQuery] int id, [FromQuery] string name, [FromQuery] string? description, [FromQuery] int categoryID)
+        [HttpPost("add_product")]
+        public IActionResult AddProduct([FromBody] ProductDto productDto)
         {
             try
             {
-                using var ctx = new ProductContext();
-                var category = ctx.Categories?
-                    .FirstOrDefault(c => c.Id == categoryID);
-                var existingProduct = ctx.Products?
-                    .FirstOrDefault(p => p.Id == id);
-
-                if (existingProduct != null)
-                {
-                    return Conflict("Product already exists.");
-                }
-
-                var newProduct = new Product
-                {
-                    Id = id,
-                    Name = name,
-                    CategoryID = category?.Id,
-                    Description = description ?? "",
-                };
-
-                ctx.Products?.Add(newProduct);
-                ctx.SaveChanges();
-
-                return Ok(newProduct);
+                var result = _productRepository.AddProduct(productDto);
+                return Ok(result);
             }
-            catch
-            {
-                return StatusCode(500);
-            }
+            catch (Exception ex)
+            { return StatusCode(500, ex); }
         }
 
-        [HttpPut("ChangeProduct")]
+/*        [HttpPut("ChangeProduct")]
         public IActionResult ChangeProduct([FromQuery] int id, [FromQuery] string name, [FromQuery] string? description, [FromQuery] int categoryID)
         {
             try
@@ -75,7 +48,7 @@ namespace ASP.NET_HomeWork.Controllers
                 using var ctx = new ProductContext();
 
                 var product = ctx.Products?
-                    .FirstOrDefault(p => p.Id == id);
+                                 .FirstOrDefault(p => p.Id == id);
                 if (product == null)
                 {
                     return StatusCode(404);
@@ -126,9 +99,9 @@ namespace ASP.NET_HomeWork.Controllers
                 using var ctx = new ProductContext();
 
                 var product = ctx.Products?
-                   .Include(p => p.ProductGroup)
-                   .Include(product => product.ProductStorages)
-                   .FirstOrDefault(p => p.Id == id);
+                                 .Include(p => p.ProductGroup)
+                                 .Include(product => product.ProductStorages)
+                                 .FirstOrDefault(p => p.Id == id);
                 if (product == null)
                 {
                     return NotFound("Product Not Found");
@@ -145,8 +118,8 @@ namespace ASP.NET_HomeWork.Controllers
                 if (patchObject.CategoryID.HasValue)
                 {
                     if (ctx.Categories?
-                        .Include(c => c.Products)
-                        .FirstOrDefault(category => category.Id == patchObject.CategoryID) != null)
+                           .Include(c => c.Products)
+                           .FirstOrDefault(category => category.Id == patchObject.CategoryID) != null)
                         product.CategoryID = patchObject?.CategoryID.Value;
                     else
                         return NotFound("Category Not Found");
@@ -169,9 +142,9 @@ namespace ASP.NET_HomeWork.Controllers
             {
                 using var ctx = new ProductContext();
                 var product = ctx.Products?
-                    .Include(p => p.ProductGroup)
-                    .Include(product => product.ProductStorages)
-                    .FirstOrDefault(p => p.Id == id);
+                                 .Include(p => p.ProductGroup)
+                                 .Include(product => product.ProductStorages)
+                                 .FirstOrDefault(p => p.Id == id);
 
                 if (product == null)
                 {
@@ -187,13 +160,6 @@ namespace ASP.NET_HomeWork.Controllers
             {
                 return StatusCode(500, ex.Message);
             }
-        }
-
-        public class PatchProductModel
-        {
-            public string? Name { get; set; }
-            public string? Description { get; set; }
-            public int? CategoryID { get; set; }
-        }
+        }*/
     }
 }
