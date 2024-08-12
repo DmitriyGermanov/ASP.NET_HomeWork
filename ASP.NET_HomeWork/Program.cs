@@ -19,6 +19,7 @@ namespace ASP.NET_HomeWork
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
             builder.Services.AddAutoMapper(typeof(MappingProfile));
+            builder.Services.AddMemoryCache(mc => mc.TrackStatistics = true);
 
             builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory());
             builder.Host.ConfigureContainer<ContainerBuilder>(cb => cb.RegisterType<ProductRepository>()

@@ -1,9 +1,6 @@
 ﻿using ASP.NET_HomeWork.Abstractions;
-using ASP.NET_HomeWork.Entities;
-using ASP.NET_HomeWork.Models;
 using ASP.NET_HomeWork.Models.DTOs;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace ASP.NET_HomeWork.Controllers
 {
