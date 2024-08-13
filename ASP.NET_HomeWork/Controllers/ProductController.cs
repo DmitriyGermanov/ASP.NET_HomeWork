@@ -1,6 +1,7 @@
 ﻿using ASP.NET_HomeWork.Abstractions;
 using ASP.NET_HomeWork.Models.DTOs;
 using Microsoft.AspNetCore.Mvc;
+using System.Text;
 
 namespace ASP.NET_HomeWork.Controllers
 {
@@ -22,7 +23,21 @@ namespace ASP.NET_HomeWork.Controllers
             {
                 return StatusCode(500, ex);
             }
+        }
 
+        [HttpGet("get_products_csv")]
+        public FileContentResult GetProductsCsv()
+        {
+            try
+            {
+                var products = _productRepository.GetProducts();
+                var result = string.Join(Environment.NewLine + Environment.NewLine, products.Select(p => p.ToString()));
+                return File(new System.Text.UTF8Encoding().GetBytes(result), "text/csv", "report.csv");
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
         [HttpPost("add_product")]

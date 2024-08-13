@@ -34,19 +34,19 @@ namespace ASP.NET_HomeWork.Repo
         public int AddProduct(ProductDto product)
         {
 
-            var entityCategory = _productContext.Categories.FirstOrDefault(cat => cat.Name != null
+            var entityProduct = _productContext.Products.FirstOrDefault(cat => cat.Name != null
                                  && cat.Name.Equals(product.Name, StringComparison.OrdinalIgnoreCase));
-            if (entityCategory == null)
+            if (entityProduct == null)
             {
-                entityCategory = _mapper?.Map<Models.Category>(product) ?? throw new Exception("Adding product can't be null.");
+                entityProduct = _mapper?.Map<Models.Product>(product) ?? throw new Exception("Adding product can't be null.");
 
-                _productContext.Categories.Add(entityCategory);
+                _productContext.Products.Add(entityProduct);
                 _productContext.SaveChanges();
             }
 
             _cache.Remove("products");
 
-            return entityCategory.Id;
+            return entityProduct.Id;
         }
 
         public IEnumerable<CategoryDto> GetAllCategories()
