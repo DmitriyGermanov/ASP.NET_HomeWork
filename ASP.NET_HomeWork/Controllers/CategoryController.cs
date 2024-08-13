@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace ASP.NET_HomeWork.Controllers
 {
     //TO-do: Обновить код на DTO собрав отражения в папку DTOs, смотреть лекция № 2
-    //Строку контекста в Json, управление контекстом через Autofac
+  
     [Route("api/[controller]")]
     [ApiController]
     public class CategoryController(IProductRepository productRepository) : ControllerBase

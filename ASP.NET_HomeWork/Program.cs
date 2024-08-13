@@ -1,5 +1,6 @@
 
 using ASP.NET_HomeWork.Abstractions;
+using ASP.NET_HomeWork.Entities;
 using ASP.NET_HomeWork.Repo;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
@@ -21,9 +22,19 @@ namespace ASP.NET_HomeWork
             builder.Services.AddAutoMapper(typeof(MappingProfile));
             builder.Services.AddMemoryCache(mc => mc.TrackStatistics = true);
 
+            var config = new ConfigurationBuilder();
+            config.AddJsonFile("appsettings.json");
+            var cfg = config.Build();
+
             builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory());
-            builder.Host.ConfigureContainer<ContainerBuilder>(cb => cb.RegisterType<ProductRepository>()
-                                                                      .As<IProductRepository>());
+            builder.Host.ConfigureContainer<ContainerBuilder>(cb =>
+            {
+                cb.RegisterType<ProductRepository>().
+                  As<IProductRepository>();
+                cb.Register(c => new ProductContext(cfg.GetConnectionString("db") ?? throw new NullReferenceException("Connection String can't be Null")))
+                  .InstancePerDependency();
+            });
+
 
             var app = builder.Build();
 

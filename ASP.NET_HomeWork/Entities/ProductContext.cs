@@ -9,13 +9,18 @@ namespace ASP.NET_HomeWork.Entities
         public DbSet<ProductStorage>? ProductStorages { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<Storage>? Storages { get; set; }
+        private readonly string? _connectionString;
 
         public ProductContext()
         {
         }
+        public ProductContext(string connectionString)
+        {
+            _connectionString = connectionString;
+        }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseMySQL("Server=localhost;Port=3306;Database=ProductsBD;Uid=root;Pwd=study;")
+            optionsBuilder.UseMySQL(_connectionString ?? throw new NullReferenceException("Connection String can't be Null."))
                           .UseLazyLoadingProxies();
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)

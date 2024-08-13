@@ -1,29 +1,29 @@
 ﻿using ASP.NET_HomeWork.Abstractions;
 using ASP.NET_HomeWork.Entities;
-using ASP.NET_HomeWork.Models;
 using ASP.NET_HomeWork.Models.DTOs;
 using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
 
 namespace ASP.NET_HomeWork.Repo
 {
-    public class ProductRepository(IMapper mapper, IMemoryCache memoryCache) : IProductRepository
+    //Строку контекста в Json, управление контекстом через Autofac
+    public class ProductRepository(IMapper mapper, IMemoryCache memoryCache, ProductContext productContext) : IProductRepository
     {
         private readonly IMapper _mapper = mapper;
         private readonly IMemoryCache _cache = memoryCache;
+        private readonly ProductContext _productContext = productContext;
 
         public int AddCategory(CategoryDto category)
         {
-            using var ctx = new ProductContext() ?? throw new Exception("Context can't be null.");
-
-            var entityCategory = ctx.Categories.FirstOrDefault(cat => cat.Name != null
+            var entityCategory = _productContext.Categories.FirstOrDefault(cat => cat.Name != null
                                  && cat.Name.Equals(category.Name, StringComparison.OrdinalIgnoreCase));
             if (entityCategory == null)
             {
                 entityCategory = _mapper?.Map<Models.Category>(category) ?? throw new Exception("Adding category can't be null.");
 
-                ctx.Categories.Add(entityCategory);
-                ctx.SaveChanges();
+                _productContext.Categories.Add(entityCategory);
+                _productContext.SaveChanges();
             }
 
             _cache.Remove("categories");
@@ -34,16 +34,14 @@ namespace ASP.NET_HomeWork.Repo
         public int AddProduct(ProductDto product)
         {
 
-            using var ctx = new ProductContext() ?? throw new Exception("Context can't be null.");
-
-            var entityCategory = ctx.Categories.FirstOrDefault(cat => cat.Name != null
+            var entityCategory = _productContext.Categories.FirstOrDefault(cat => cat.Name != null
                                  && cat.Name.Equals(product.Name, StringComparison.OrdinalIgnoreCase));
             if (entityCategory == null)
             {
                 entityCategory = _mapper?.Map<Models.Category>(product) ?? throw new Exception("Adding product can't be null.");
 
-                ctx.Categories.Add(entityCategory);
-                ctx.SaveChanges();
+                _productContext.Categories.Add(entityCategory);
+                _productContext.SaveChanges();
             }
 
             _cache.Remove("products");
@@ -57,12 +55,10 @@ namespace ASP.NET_HomeWork.Repo
             {
                 return categories;
             }
-            using var ctx = new ProductContext();
 
-            
-            categories = ctx.Categories.Select(category => _mapper.Map<CategoryDto>(category)).ToList();
+            categories = [.. _productContext.Categories.Select(category => _mapper.Map<CategoryDto>(category))];
             _cache.Set("categories", categories, TimeSpan.FromMinutes(30));
-            
+
             return categories;
         }
 
@@ -73,12 +69,10 @@ namespace ASP.NET_HomeWork.Repo
                 return products;
             }
 
-            using var ctx = new ProductContext();
-
-            products = ctx.Products.Select(product => _mapper.Map<ProductDto>(product)).ToList();
+            products = [.. _productContext.Products.Select(product => _mapper.Map<ProductDto>(product))];
 
             _cache.Set("products", products, TimeSpan.FromMinutes(30));
-            
+
             return products;
         }
     }
