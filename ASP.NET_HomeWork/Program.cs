@@ -4,6 +4,7 @@ using ASP.NET_HomeWork.Entities;
 using ASP.NET_HomeWork.Repo;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
+using Microsoft.Extensions.FileProviders;
 
 namespace ASP.NET_HomeWork
 {
@@ -35,7 +36,6 @@ namespace ASP.NET_HomeWork
                   .InstancePerDependency();
             });
 
-
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -44,6 +44,15 @@ namespace ASP.NET_HomeWork
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
+
+            var staticFilesPath = Path.Combine(Directory.GetCurrentDirectory(), "StaticFiles");
+            Directory.CreateDirectory(staticFilesPath);
+
+            app.UseStaticFiles(new StaticFileOptions
+            {
+                FileProvider = new PhysicalFileProvider(staticFilesPath),
+                RequestPath ="/static"
+            });
 
             app.UseHttpsRedirection();
 
