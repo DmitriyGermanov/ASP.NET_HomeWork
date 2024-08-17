@@ -1,6 +1,6 @@
 @ASP.NET_HomeWork_HostAddress = http://localhost:7239
 
-GET {{ASP.NET_HomeWork_HostAddress}}/weatherforecast/
+GET {{ASP.NET_HomeWork_HostAddress}}/api/
 Accept: application/json
 
 ###

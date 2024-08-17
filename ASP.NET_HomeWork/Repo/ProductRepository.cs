@@ -2,12 +2,10 @@
 using ASP.NET_HomeWork.Entities;
 using ASP.NET_HomeWork.Models.DTOs;
 using AutoMapper;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
 
 namespace ASP.NET_HomeWork.Repo
 {
-    //Строку контекста в Json, управление контекстом через Autofac
     public class ProductRepository(IMapper mapper, IMemoryCache memoryCache, ProductContext productContext) : IProductRepository
     {
         private readonly IMapper _mapper = mapper;

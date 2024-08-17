@@ -1,0 +1,79 @@
+﻿using ASP.NET_Seminar3.Models;
+using Microsoft.EntityFrameworkCore;
+
+namespace ASP.NET_Seminar_3
+{
+    public class Seminar3Context(string connectionString) : DbContext
+    {
+        public DbSet<Product> Products { get; set; }
+        public DbSet<ProductStorage>? ProductStorages { get; set; }
+        public DbSet<Category> Categories { get; set; }
+        public DbSet<Storage> Storages { get; set; }
+        private readonly string? _connectionString = connectionString;
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder.UseMySQL(_connectionString ?? throw new NullReferenceException("Connection String can't be Null."))
+                          .UseLazyLoadingProxies();
+        }
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Category>(entity =>
+            {
+                entity.HasKey(c => c.Id)
+                      .HasName("PK_CategoryID");
+                entity.HasIndex(c => c.Id)
+                      .IsUnique();
+                entity.ToTable("Categories");
+
+                entity.HasMany(c => c.Products)
+                      .WithOne(p => p.ProductGroup)
+                      .HasForeignKey(p => p.CategoryID);
+            });
+
+            modelBuilder.Entity<Product>(entity =>
+            {
+                entity.HasKey(p => p.Id)
+                      .HasName("PK_ProductID");
+                entity.HasIndex(p => p.Id)
+                      .IsUnique();
+                entity.ToTable("Products");
+
+                entity.HasOne(p => p.ProductGroup)
+                      .WithMany(c => c.Products)
+                      .HasForeignKey(p => p.CategoryID);
+
+                entity.HasMany(p => p.ProductStorages)
+                      .WithOne(ps => ps.Product)
+                      .HasForeignKey(ps => ps.ProductId);
+            });
+
+            modelBuilder.Entity<ProductStorage>(entity =>
+            {
+                entity.HasKey(ps => new { ps.ProductId, ps.StorageID })
+                      .HasName("PK_ProductStorage");
+
+                entity.HasOne(ps => ps.Product)
+                      .WithMany(p => p.ProductStorages)
+                      .HasForeignKey(ps => ps.ProductId);
+
+                entity.HasOne(ps => ps.Storage)
+                      .WithMany(s => s.ProductStorages)
+                      .HasForeignKey(ps => ps.StorageID);
+            });
+
+            modelBuilder.Entity<Storage>(entity =>
+            {
+                entity.HasKey(s => s.Id)
+                      .HasName("PK_StorageID");
+                entity.HasIndex(s => s.Id)
+                      .IsUnique();
+                entity.ToTable("Storages");
+
+                entity.HasMany(s => s.ProductStorages)
+                      .WithOne(ps => ps.Storage)
+                      .HasForeignKey(ps => ps.StorageID);
+            });
+        }
+    }
+}
