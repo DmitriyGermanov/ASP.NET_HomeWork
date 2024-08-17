@@ -6,7 +6,6 @@ namespace ASP.NET_Seminar_3
     public class Seminar3Context(string connectionString) : DbContext
     {
         public DbSet<Product> Products { get; set; }
-        public DbSet<ProductStorage>? ProductStorages { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<Storage> Storages { get; set; }
         private readonly string? _connectionString = connectionString;
@@ -42,25 +41,8 @@ namespace ASP.NET_Seminar_3
                 entity.HasOne(p => p.ProductGroup)
                       .WithMany(c => c.Products)
                       .HasForeignKey(p => p.CategoryID);
-
-                entity.HasMany(p => p.ProductStorages)
-                      .WithOne(ps => ps.Product)
-                      .HasForeignKey(ps => ps.ProductId);
             });
 
-            modelBuilder.Entity<ProductStorage>(entity =>
-            {
-                entity.HasKey(ps => new { ps.ProductId, ps.StorageID })
-                      .HasName("PK_ProductStorage");
-
-                entity.HasOne(ps => ps.Product)
-                      .WithMany(p => p.ProductStorages)
-                      .HasForeignKey(ps => ps.ProductId);
-
-                entity.HasOne(ps => ps.Storage)
-                      .WithMany(s => s.ProductStorages)
-                      .HasForeignKey(ps => ps.StorageID);
-            });
 
             modelBuilder.Entity<Storage>(entity =>
             {
@@ -69,10 +51,6 @@ namespace ASP.NET_Seminar_3
                 entity.HasIndex(s => s.Id)
                       .IsUnique();
                 entity.ToTable("Storages");
-
-                entity.HasMany(s => s.ProductStorages)
-                      .WithOne(ps => ps.Storage)
-                      .HasForeignKey(ps => ps.StorageID);
             });
         }
     }

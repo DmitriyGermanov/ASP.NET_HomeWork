@@ -8,7 +8,5 @@ namespace ASP.NET_Seminar3.Models
         public int? CategoryID { get; set; }
         [JsonIgnore]
         public virtual Category? ProductGroup { get; set; }
-        [JsonIgnore]
-        public virtual List<ProductStorage>? ProductStorages { get; set; } = [];
     }
 }
