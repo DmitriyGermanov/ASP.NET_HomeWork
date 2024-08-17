@@ -6,5 +6,6 @@ namespace ASP.NET_Seminar_3.Abstractions
     {
         IEnumerable<StorageDto> GetStorages();
         int AddStorage(StorageDto storageDto);
+        bool CheckStorage(int storageID);
     }
 }

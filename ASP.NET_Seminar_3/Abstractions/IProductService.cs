@@ -6,6 +6,6 @@ namespace ASP.NET_Seminar_3.Abstractions
     {
         IEnumerable<ProductDto> GetProducts();
         int AddProduct(ProductDto product);
-
+        bool CheckProduct(int productID);
     }
 }

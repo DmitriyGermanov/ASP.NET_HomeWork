@@ -7,5 +7,6 @@ namespace ASP.NET_Seminar_3.Mutations
     public class MySimpleMutation
     {
         public int AddProduct([Service] IProductService service, ProductDto product) => service.AddProduct(product);
+        public int AddStorage([Service] IStorageService service, StorageDto storage) => service.AddStorage(storage);
     }
 }

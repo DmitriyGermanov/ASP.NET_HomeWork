@@ -1,4 +1,4 @@
-@ASP.NET_Seminar_3_HostAddress = http://localhost:5209
+@ASP.NET_Seminar_3_HostAddress = http://localhost:7132
 
 GET {{ASP.NET_Seminar_3_HostAddress}}/weatherforecast/
 Accept: application/json

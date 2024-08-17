@@ -2,6 +2,9 @@
 using Autofac.Extensions.DependencyInjection;
 using Autofac;
 using StorageProductConnector.Context;
+using StorageProductConnector.Services;
+using StorageProductConnector.Abstractions;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace StorageProductConnector
 {
@@ -26,6 +29,14 @@ namespace StorageProductConnector
                                                   ?? throw new NullReferenceException("Connection String can't be Null");
                     cb.Register(c => new StorageProductConnectorContext(connectionString))
                       .InstancePerDependency();
+
+                    cb.RegisterType<MemoryCache>()
+                      .As<IMemoryCache>()
+                      .SingleInstance();
+
+                    cb.RegisterType<StorageProductConnectorService>()
+                      .As<IStorageProductConnectorService>()
+                      .InstancePerLifetimeScope();
                 });
 
             var app = builder.Build();

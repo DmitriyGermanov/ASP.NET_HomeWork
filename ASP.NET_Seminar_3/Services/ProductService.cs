@@ -20,6 +20,8 @@ namespace ASP.NET_Seminar_3.Services
             return entity.Id;
         }
 
+        public bool CheckProduct(int productID) => _context.Products.Any(pr => pr.Id == productID);
+
         public IEnumerable<ProductDto> GetProducts()
         {
             if (_cache.TryGetValue("products", out List<ProductDto>? products) && products != null)

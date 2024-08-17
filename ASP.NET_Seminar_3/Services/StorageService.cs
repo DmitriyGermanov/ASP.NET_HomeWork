@@ -22,12 +22,12 @@ namespace ASP.NET_Seminar_3.Services
                 _context.SaveChanges();
             }
 
-            var entity = _mapper.Map<StorageDto>(storageDto);
-            _context.Add(entity);
-            _context.SaveChanges();
             _cache.Remove("storages");
-            return entity.Id;
+
+            return entityStorage.Id;
         }
+
+        public bool CheckStorage(int storageID) => _context.Storages.Any(st => st.Id == storageID);
 
         public IEnumerable<StorageDto> GetStorages()
         {

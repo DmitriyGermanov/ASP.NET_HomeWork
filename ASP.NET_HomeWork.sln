@@ -9,6 +9,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Products and Storages servi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StorageProductConnector", "StorageProductConnector\StorageProductConnector.csproj", "{2197B9FE-0365-4CC8-A760-BCF418FC9F14}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OcelotGateway", "OcelotGateway\OcelotGateway.csproj", "{13F32A3D-53BE-44C1-9A3F-93469B962431}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{2197B9FE-0365-4CC8-A760-BCF418FC9F14}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2197B9FE-0365-4CC8-A760-BCF418FC9F14}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2197B9FE-0365-4CC8-A760-BCF418FC9F14}.Release|Any CPU.Build.0 = Release|Any CPU
+		{13F32A3D-53BE-44C1-9A3F-93469B962431}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{13F32A3D-53BE-44C1-9A3F-93469B962431}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{13F32A3D-53BE-44C1-9A3F-93469B962431}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{13F32A3D-53BE-44C1-9A3F-93469B962431}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

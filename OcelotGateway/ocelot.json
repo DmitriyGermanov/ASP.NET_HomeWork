@@ -1,0 +1,78 @@
+{
+  "Routes": [
+    {
+      "DownstreamPathTemplate": "/api/Product/CheckProduct/{productID}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7132
+        }
+      ],
+      "UpstreamPathTemplate": "/products/check/{productID}",
+      "UpstreamHttpMethod": [ "Get" ],
+      "SwaggerKey": "products"
+    },
+    {
+      "DownstreamPathTemplate": "/api/Storage/CheckStorage/{storageID}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7132
+        }
+      ],
+      "UpstreamPathTemplate": "/storages/check/{storageID}",
+      "UpstreamHttpMethod": [ "Get" ],
+      "SwaggerKey": "storages"
+    },
+    {
+      "DownstreamPathTemplate": "/api/ProductStorageConnectorController/{methods}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7211
+        }
+      ],
+      "UpstreamPathTemplate": "/storages_product_connector/{methods}",
+      "UpstreamHttpMethod": [ "Get" ],
+      "SwaggerKey": "storages_products_connector"
+    }
+  ],
+  "SwaggerEndPoints": [
+    {
+      "Key": "products",
+      "TransformByOcelotConfig": false,
+      "Config": [
+        {
+          "Name": "Products API",
+          "Version": "v1",
+          "Url": "https://localhost:7132/swagger/v1/swagger.json"
+        }
+      ]
+    },
+    {
+      "Key": "storages",
+      "TransformByOcelotConfig": false,
+      "Config": [
+        {
+          "Name": "Storages API",
+          "Version": "v1",
+          "Url": "https://localhost:7132/swagger/v1/swagger.json"
+        }
+      ]
+    },
+    {
+      "Key": "storages_products_connector",
+      "TransformByOcelotConfig": false,
+      "Config": [
+        {
+          "Name": "Products and Storages Connector",
+          "Version": "v1",
+          "Url": "https://localhost:7211/swagger/v1/swagger.json"
+        }
+      ]
+    }
+  ]
+}
