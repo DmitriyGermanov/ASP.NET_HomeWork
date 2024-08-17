@@ -12,7 +12,17 @@ namespace ASP.NET_Seminar_3.Services
         private readonly IMemoryCache _cache = cache;
         public int AddStorage(StorageDto storageDto)
         {
-            var entity = _mapper.Map<ProductDto>(storageDto);
+            var entityStorage = _context.Storages.FirstOrDefault(cat => cat.Name != null
+                      && cat.Name.Equals(storageDto.Name, StringComparison.OrdinalIgnoreCase));
+            if (entityStorage == null)
+            {
+                entityStorage = _mapper?.Map<Storage>(storageDto) ?? throw new Exception("Adding storage can't be Null.");
+
+                _context.Storages.Add(entityStorage);
+                _context.SaveChanges();
+            }
+
+            var entity = _mapper.Map<StorageDto>(storageDto);
             _context.Add(entity);
             _context.SaveChanges();
             _cache.Remove("storages");
@@ -21,6 +31,7 @@ namespace ASP.NET_Seminar_3.Services
 
         public IEnumerable<StorageDto> GetStorages()
         {
+
             if (_cache.TryGetValue("storages", out List<StorageDto>? storages) && storages != null)
                 return storages;
 
