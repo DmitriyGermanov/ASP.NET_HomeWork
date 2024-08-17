@@ -1,4 +1,8 @@
 
+using Autofac.Extensions.DependencyInjection;
+using Autofac;
+using StorageProductConnector.Context;
+
 namespace StorageProductConnector
 {
     public class Program
@@ -13,6 +17,16 @@ namespace StorageProductConnector
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+
+            builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory())
+                .ConfigureContainer<ContainerBuilder>(cb =>
+                {
+                    var connectionString = builder.Configuration
+                                                  .GetConnectionString("db")
+                                                  ?? throw new NullReferenceException("Connection String can't be Null");
+                    cb.Register(c => new StorageProductConnectorContext(connectionString))
+                      .InstancePerDependency();
+                });
 
             var app = builder.Build();
 
