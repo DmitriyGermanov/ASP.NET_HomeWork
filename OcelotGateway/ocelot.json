@@ -2,11 +2,11 @@
   "Routes": [
     {
       "DownstreamPathTemplate": "/api/Product/CheckProduct/{productID}",
-      "DownstreamScheme": "https",
+      "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 7132
+          "Host": "storageproductconnector",
+          "Port": 8085
         }
       ],
       "UpstreamPathTemplate": "/products/check/{productID}",
@@ -15,11 +15,11 @@
     },
     {
       "DownstreamPathTemplate": "/api/Storage/CheckStorage/{storageID}",
-      "DownstreamScheme": "https",
+      "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 7132
+          "Host": "storageproductconnector",
+          "Port": 8085
         }
       ],
       "UpstreamPathTemplate": "/storages/check/{storageID}",
@@ -28,11 +28,11 @@
     },
     {
       "DownstreamPathTemplate": "/api/ProductStorageConnectorController/{methods}",
-      "DownstreamScheme": "https",
+      "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 7211
+          "Host": "storageproductconnector",
+          "Port": 8084
         }
       ],
       "UpstreamPathTemplate": "/storages_product_connector/{methods}",
@@ -48,7 +48,7 @@
         {
           "Name": "Products API",
           "Version": "v1",
-          "Url": "https://localhost:7132/swagger/v1/swagger.json"
+          "Url": "http://aspnetseminar3:8085/swagger/v1/swagger.json"
         }
       ]
     },
@@ -59,7 +59,7 @@
         {
           "Name": "Storages API",
           "Version": "v1",
-          "Url": "https://localhost:7132/swagger/v1/swagger.json"
+          "Url": "http://aspnetseminar3:8085/swagger/v1/swagger.json"
         }
       ]
     },
@@ -70,7 +70,7 @@
         {
           "Name": "Products and Storages Connector",
           "Version": "v1",
-          "Url": "https://localhost:7211/swagger/v1/swagger.json"
+          "Url": "http://storageproductconnector:8084/swagger/v1/swagger.json"
         }
       ]
     }

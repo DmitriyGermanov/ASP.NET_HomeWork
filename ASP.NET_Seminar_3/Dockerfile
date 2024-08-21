@@ -3,9 +3,10 @@ WORKDIR /app
 COPY *.csproj ./
 RUN dotnet restore
 COPY . ./
-RUN dotnet publish -c Release -o /app/out
+RUN dotnet publish -c Release  -o /app/out
+
 FROM mcr.microsoft.com/dotnet/aspnet:latest
-EXPOSE 80
+EXPOSE 8085
 WORKDIR /app
 COPY --from=build-env /app/out .
-ENTRYPOINT ["dotnet", "ASP.NET_HomeWork.dll"]
+ENTRYPOINT ["dotnet", "Products and Storages service.dll"]
