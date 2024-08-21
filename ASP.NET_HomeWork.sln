@@ -7,9 +7,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ASP.NET_HomeWork", "ASP.NET
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Products and Storages service", "ASP.NET_Seminar_3\Products and Storages service.csproj", "{177681FE-AE95-422A-94B3-7E07396793BB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StorageProductConnector", "StorageProductConnector\StorageProductConnector.csproj", "{2197B9FE-0365-4CC8-A760-BCF418FC9F14}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StorageProductConnector", "StorageProductConnector\StorageProductConnector.csproj", "{2197B9FE-0365-4CC8-A760-BCF418FC9F14}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OcelotGateway", "OcelotGateway\OcelotGateway.csproj", "{13F32A3D-53BE-44C1-9A3F-93469B962431}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OcelotGateway", "OcelotGateway\OcelotGateway.csproj", "{13F32A3D-53BE-44C1-9A3F-93469B962431}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
